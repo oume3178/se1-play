@@ -37,11 +37,38 @@ class NumbersImpl implements Numbers {
 
     // Dummy-Implementierungen für den Moment, damit es kompiliert
     @Override
-    public int findFirst(int[] numbers, int x) { return -1; }
+    public int findFirst(int[] numbers, int x) {
+        if (numbers == null) return -1;
+        for (int i = 0; i < numbers.length; i++) {
+            if (numbers[i] == x) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     @Override
-    public int findLast(int[] numbers, int x) { return -1; }
+    public int findLast(int[] numbers, int x) {
+        if (numbers == null) return -1;
+        for (int i = numbers.length - 1; i >= 0; i--) {
+            if (numbers[i] == x) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     @Override
-    public List<Integer> findAll(int[] numbers, int x) { return List.of(); }
+    public List<Integer> findAll(int[] numbers, int x) {
+        if (numbers == null) return List.of();
+        List<Integer> indices = new java.util.ArrayList<>();
+        for (int i = 0; i < numbers.length; i++) {
+            if (numbers[i] == x) {
+                indices.add(i);
+            }
+        }
+        return indices;
+    }
     @Override
     public Set<Pair> findSums(int[] numbers, int sum) { return Set.of(); }
     @Override
