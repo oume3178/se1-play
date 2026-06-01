@@ -92,4 +92,12 @@ public class Numbers_6_find_all_Tests {
         // 
         assertEquals("illegal argument: null", ex.getMessage());
     }
+    @Test @Order(641)
+    void test641_find_all_exception_null_arg() {
+        IllegalArgumentException ex =
+            assertThrows(IllegalArgumentException.class,
+                () -> testObj.findAll(null, 0));
+        //
+        assertEquals("illegal argument: null", ex.getMessage());
+    }
 }
