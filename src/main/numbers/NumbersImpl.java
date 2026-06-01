@@ -89,5 +89,43 @@ class NumbersImpl implements Numbers {
         return pairs;
     }
     @Override
-    public Set<Set<Integer>> findAllSums(int[] numbers, int sum) { return Set.of(); }
+    public Set<Set<Integer>> findAllSums(int[] numbers, int sum) {
+        if (numbers == null) return Set.of();
+        
+        // Wir sortieren das Array zuerst. Das ist der Trick, um den Algorithmus extrem schnell zu machen!
+        int[] sorted = numbers.clone();
+        java.util.Arrays.sort(sorted);
+        
+        Set<Set<Integer>> results = new java.util.LinkedHashSet<>();
+        findSubsets(sorted, sum, 0, new java.util.ArrayList<>(), results);
+        return results;
+    }
+
+    // Hilfsmethode für das rekursive Backtracking
+    private void findSubsets(int[] numbers, int targetSum, int startIndex, 
+                             List<Integer> currentSubset, Set<Set<Integer>> results) {
+        
+        if (targetSum == 0) {
+            // Treffer! Wir fügen die gefundene Kombination als neues Set hinzu
+            results.add(new java.util.LinkedHashSet<>(currentSubset));
+            return;
+        }
+
+        for (int i = startIndex; i < numbers.length; i++) {
+            // Der "Bruteforce-Killer": Da das Array sortiert ist, können wir sofort abbrechen,
+            // wenn die aktuelle Zahl schon größer als die gesuchte Restsumme ist!
+            if (numbers[i] > targetSum) {
+                break;
+            }
+            
+            // Zahl zum aktuellen Versuch hinzufügen
+            currentSubset.add(numbers[i]);
+            
+            // Rekursiv weitersuchen mit der neuen Restsumme
+            findSubsets(numbers, targetSum - numbers[i], i + 1, currentSubset, results);
+            
+            // Zahl wieder entfernen (Backtracking), um den nächsten Zweig zu probieren
+            currentSubset.remove(currentSubset.size() - 1);
+        }
+    }
 }
